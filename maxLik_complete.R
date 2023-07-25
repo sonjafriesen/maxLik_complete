@@ -20,7 +20,22 @@
 #' @param plotSub allows you to plot only a subset of photographs - indicate with a vector the corresponding numeric indices of the data you wish to plot. Photographs are numbered alphabetically by name, and the photograph numbers can also be found by using the showNum option in \code{\link{plotRaw}}. Defaults to NA, which will plot data from all photographs. Note this does not affect the analysis component, all data is always analyzed.
 #' @param plotCompon plots the two terms of the double logistic equation. Defaults to FALSE
 
-#' @details \code{\link{maxLik}} 
+#' @details \code{\link{maxLik}} searches for the maximum likelihood parameter for a logistic equation using the pixel intensity information previously determined from \code{\link{IJMacro}}. Three types of inhibition growth were identified and each needs a specific logistic equation:
+#' For normal growth:
+#' y = asymA*exp(scalA(x-od50A))\(1+exp(scalA(x-od50A)))+N(0, sigma)
+#'where asymA and asymB are the two asymptotes, od50A and odB are the midpoints (of the two curves), scalA and scalB are the slopes at odA and odB divided by asymA/4 and asymB/4, respectively.
+
+#' For paradoxical growth A:(pixel intensity goes down around drug disk and then goes up  and again goes down)
+#' a <- exp(slope * (x - shift))
+#' b <- 1 - 4 * exp(slope * (x - shift))
+#' c <- exp(2 * slope * (x - shift))
+#' d <- (1 + exp(slope * (x - shift))) ^ 4
+#' y=drop * a * (b + c) / d + height
+#'Where Slope adjusts slope of the middle curve,height: adjusts the height of the sides, shift is the movement(left/right), drop adjusts the variation in height between the sides and the bottom of the middle curve.
+
+#' For paradoxical growth B:(pixel intensity is high around drug disk and then goes down)
+#' y = asymA*exp(-1*scalA(x-od50A))\(1+exp(-1*scalA(x-od50A)))-asymB*exp(-1*scalB(x-od50B)))\(1+exp(-1*scalB(x-od50B)))+N(0, sigma)
+
 
 #' @section Important:
 #' The photograph specified with \code{clearHalo} is extremely important to determine tolerance, as the intensity beside the disk for the chosen photograph is subtracted for all photographs. Choosing the photograph to be used for this purpose is the only subjective aspect of this pipeline; lighting and camera settings will determine the degre to which the hue of the plate backbground changes among different photographs. Care should be taken to ensure that plate background will be as similar as possible among different plates. Photographs are numbered alphabetically by name, and can also be found using \code{\link{plotRaw}}, showNum = TRUE. In many experiments a suitable strain will already be included, however a good practice is to always take a photograph of a blank plate with just the disk in the center to use for this purpose (and save it with a name like "a" so that it is always the first photograph in the list (i.e., `clearHalo = 1`). The (non)results from this photograph can be later removed in the function `createDataframe()`.
