@@ -5,7 +5,6 @@ maxLikTest <- function(projectName, standType ="one", clearHalo, diskDiam = 6, s
   
   dotedge <- diskDiam/2+0.7
   
-  
   dotMax <- max(sapply(data, function(x) {x[which(x[,1] > standardLoc)[1], 2]}))
   standard <-c( sapply(data, function(x) {dotMax-x[which(x[,1] > standardLoc)[1], 2]}))
   
@@ -29,7 +28,7 @@ maxLikTest <- function(projectName, standType ="one", clearHalo, diskDiam = 6, s
   c <- exp(2 * slope * (x - shift))
   d <- (1 + exp(slope * (x - shift))) ^ 4
   
-  drop * a * (b + c) / d + height - asym*exp(scal*(x-midpoint))/(1+exp(scal*(x-midpoint)))
+  drop * a * (b + c) / d + height + asym*exp(scal*(x-midpoint))/(1+exp(scal*(x-midpoint)))
 }
 
 .getstats2Log <- function(i, data, stand, dotedge=dotedge, maxDist=maxDist, maxSlope=100){
@@ -85,13 +84,13 @@ maxLikTest <- function(projectName, standType ="one", clearHalo, diskDiam = 6, s
     c <- exp(2 * slope * (x - shift))
     d <- (1 + exp(slope * (x - shift))) ^ 4
     
-    res <- dnorm(y, drop * a * (b + c) / d + height - asym*exp(scal*(x-midpoint))/(1+exp(scal*(x-midpoint))), sigma, log= T)
+    res <- dnorm(y, drop * a * (b + c) / d + height + asym*exp(scal*(x-midpoint))/(1+exp(scal*(x-midpoint))), sigma, log= T)
     sum(res)
   }
   
   lowOD <- min(data[[i]]$x)
   highOD <- quantile(data[[i]]$x, 0.99, na.rm = TRUE)
-  lowerLog <- c(0, 0, 0,0, 0, 0, 0)
+  lowerLog <- c(0.8*highOD, 0, 0,0, 0, 0, 0)
   upperLog <- c(highOD, maxDist, maxSlope, 10, highOD,  maxDist, maxSlope)
   lowerNegLog <- c(0.8*highOD, 0, 0, 0)
   upperNegLog <- c(highOD, maxDist, maxSlope, 10)
