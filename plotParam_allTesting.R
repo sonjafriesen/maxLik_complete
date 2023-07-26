@@ -10,7 +10,7 @@
   if (ML2[[i]][length(ML2[[i]])] == 'Log') {
     yy<- .curveLog(xx, ML2[[i]]$par[1], ML2[[i]]$par[2], ML2[[i]]$par[3], ML2[[i]]$par[5], ML2[[i]]$par[6], ML2[[i]]$par[7])
   } else if (ML2[[i]][length(ML2[[i]])] == 'NegLog') {
-    yy <- .curveNegLog2(xx, ML2[[i]]$par[1], ML2[[i]]$par[2], ML2[[i]]$par[3]) 
+    yy <- .curveNegLog(xx, ML2[[i]]$par[1], ML2[[i]]$par[2], ML2[[i]]$par[3]) 
   } else {
     yy <- .curveParadox(xx, ML2[[i]]$par[1], ML2[[i]]$par[2], ML2[[i]]$par[3], ML2[[i]]$par[4], ML2[[i]]$par[6], ML2[[i]]$par[7], ML2[[i]]$par[8])
   }
@@ -59,7 +59,7 @@ plotParamTest <- function(projectName, ML2, stand,  clearHaloStand, standardLoc 
   fileFolder <- projectName
   dir.create(file.path(getwd(), "figures"), showWarnings= FALSE)
   dir.create(file.path(getwd(), "figures", fileFolder), showWarnings= FALSE)
-  t <- file.path("figures", projectName , paste(projectName, "_test.pdf", sep=""))
+  t <- file.path("figures", projectName , paste(projectName, "_test1.pdf", sep=""))
   if (!overwrite){
     if (file.exists(t)){
       t <- file.path("figures", projectName , paste(projectName, "_FoG_2_FoG", FoG, "_RAD", RAD, ".pdf", sep=""))
@@ -131,5 +131,3 @@ plotParamTest <- function(projectName, ML2, stand,  clearHaloStand, standardLoc 
     }
   }
 }
-
-plotParamTest('speed', speed.ML2, standard, cHS, label = names(speed), plotSub = NA, plotCompon = FALSE)
