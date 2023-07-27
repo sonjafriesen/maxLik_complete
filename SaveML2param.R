@@ -49,9 +49,9 @@ saveML2Param <- function(projectName){
   od50B <- round(unlist(lapply(ML2, function(x) x$par[6])), 2)
   scalB <- round(unlist(lapply(ML2, function(x) x$par[7])), 2)
   lnLik <- round(unlist(lapply(ML2, function(x) x$lnLik)), 2)
-  type <- round(unlist(lapply(ML2, function(x) x[[9]][["type"]])), 2)
-  ML2.df <- data.frame(line = names(data), asymA, od50A, scalA, sigma, asymB, od50B, scalB, lnLik)
+  type <- unlist(lapply(ML2, function(x) x[[9]][["type"]]))
+  ML2.df <- data.frame(line = names(data), asymA, od50A, scalA, sigma, asymB, od50B, scalB, lnLik,type)
   return(ML2.df)
 }
 
-saveML2Param("nazli3")
+
