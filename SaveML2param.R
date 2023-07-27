@@ -10,7 +10,7 @@
 
 #' @author Aleeza C. Gerstein
 
-saveMLParam2 <- function(projectName){
+saveML2Param <- function(projectName){
   #Sys.Date() : asks system about current time and date
   fileFolder <- paste(Sys.Date(), projectName, sep="_")
   newdir <- file.path(getwd(), "parameter_files")
@@ -49,8 +49,9 @@ saveMLParam2 <- function(projectName){
   od50B <- round(unlist(lapply(ML2, function(x) x$par[6])), 2)
   scalB <- round(unlist(lapply(ML2, function(x) x$par[7])), 2)
   lnLik <- round(unlist(lapply(ML2, function(x) x$lnLik)), 2)
+  type <- round(unlist(lapply(ML2, function(x) x[[9]][["type"]])), 2)
   ML2.df <- data.frame(line = names(data), asymA, od50A, scalA, sigma, asymB, od50B, scalB, lnLik)
   return(ML2.df)
 }
 
-
+saveML2Param("nazli3")
